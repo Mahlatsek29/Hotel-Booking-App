@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.navbar{
+  background-color:  #806043!important;
+}
+.nav-link{
+  color: white !important;
+}
+.navbar-brand{
+  color:#806043!important;
+}
+.navbar-nav{
+  margin-left:auto !important;
+}
+.custom-text-color {
+  color: #50C878;
+}
+/* Footer styles */
+footer {
+  background-color: #0050B5 !important;
+  color: white !important;
+}
+
+
+.custom-text-color {
+  color: #50C878;
+}
+.card-container {
+  margin: -1rem; /* Adjust the negative margin to create space between cards */
+}
+
+.card {
+  height: 100%; /* Make the cards take up full height of the container */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Optional: Add spacing inside the cards if needed */
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Add media query for smaller screens if necessary */
+@media (max-width: 768px) {
+  .card-container {
+    margin: -0.5rem; /* Adjust negative margin for smaller screens */
+  }
+}
+.custom-view-button {
+  background-color: #806043 !important;
+  /* Add any other styling properties you need */
+}
+.profile-icon-button {
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  outline: none;
+}
+.profile-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #dddddd;
+}
+
+
