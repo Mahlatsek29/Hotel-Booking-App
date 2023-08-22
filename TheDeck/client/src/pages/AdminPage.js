@@ -30,7 +30,7 @@ const AdminPage = () => {
                         <td>2023-08-25</td>
                         <td>R1000</td>
                         <td>
-                            <button>Edi</button>
+                            <button>Edit</button>
                             <button>Delete</button>
                         </td>
                     </tr>

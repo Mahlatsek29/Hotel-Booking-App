@@ -6,7 +6,7 @@ import Welcome from './pages/Welcome';
 import Home from './pages/Home';
 import About from './pages/About';
 import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+// import SignUp from './pages/SignUp';
 import RoomDetails from './pages/RoomDetails';
 import BookingSummary from './pages/BookingSummary';
 import Payment from './pages/Payment';
@@ -22,8 +22,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/roomdetails" element={<RoomDetails />} />
+          {/* <Route path="/signup" element={<SignUp />} /> */}
+          <Route path="/roomdetails/:roomId" element={<RoomDetails />} />
           <Route path="/bookingsummary" element={<BookingSummary />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/admin" element={<AdminPage />} />

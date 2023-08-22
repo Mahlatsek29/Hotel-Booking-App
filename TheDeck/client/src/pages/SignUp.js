@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function SignUp() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
     email: '',
     password: '',
     phone: '',
@@ -19,11 +20,67 @@ function SignUp() {
     }));
   };
 
+  const IsValidate = () => {
+    let isproceed = true;
+    let errormessage = "Please enter the value in ";
+
+    if (formData.fullName === '') {
+      isproceed = false;
+      errormessage += "Full Name";
+    }
+    if (formData.email === '') {
+      isproceed = false;
+      errormessage += "Email";
+    }
+    if (formData.password === '') {
+      isproceed = false;
+      errormessage += "Password";
+    }
+    if (formData.phone === '') {
+      isproceed = false;
+      errormessage += "Phone";
+    }
+
+    if (!isproceed) {
+      toast.warning(errormessage);
+    } else {
+      if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(formData.email)) {
+        isproceed = false;
+        toast.warning("Please enter a valid email");
+      }
+    }
+    return isproceed;
+  };
+
   const handleSignUp = (event) => {
     event.preventDefault();
-    // Perform sign up logic and validation here
-    // If successful, navigate to another route
-    navigate('/dashboard'); // Replace '/dashboard' with the desired route
+
+    if (IsValidate()) {
+      const newUser = {
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+      };
+
+      fetch("http://localhost:8080/signup", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newUser),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            toast.success("Successfully Registered.");
+            navigate("/signin");
+          } else {
+            toast.error("Registration failed.");
+          }
+        })
+        .catch((err) => {
+          toast.error("Failed: " + err.message);
+        });
+    }
   };
 
   const wrapperStyle = {
@@ -89,11 +146,7 @@ function SignUp() {
   return (
     <div style={wrapperStyle}>
       <div style={logoStyle}>
-        <img
-          src="img/LOGO.png"
-          alt=""
-          style={logoImgStyle}
-        />
+        <img src="img/LOGO.png" alt="" style={logoImgStyle} />
       </div>
       <div className="text-center mt-4" style={nameStyle}>
         SIGN-UP
@@ -103,11 +156,11 @@ function SignUp() {
           <span className="far fa-user"></span>
           <input
             type="text"
-            name="name"
-            id="name"
-            placeholder="Name"
+            name="fullName"
+            id="fullName"
+            placeholder="Full Name"
             style={formFieldStyle}
-            value={formData.name}
+            value={formData.fullName}
             onChange={handleChange}
             required
           />
