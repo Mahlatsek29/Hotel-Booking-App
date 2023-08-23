@@ -1,0 +1,33 @@
+{
+  "dataList": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "roomName": "Deluxe Suite",
+      "numGuests": "2",
+      "checkIn": "2023-08-25",
+      "checkOut": "2023-08-28",
+      "totalAmount": "$300"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "roomName": "Standard Room",
+      "numGuests": "1",
+      "checkIn": "2023-09-01",
+      "checkOut": "2023-09-05",
+      "totalAmount": "$200"
+    }
+  ],
+  "admin": [
+    {
+      "userName": "admin",
+      "password": "adminpassword",
+      "role": "admin"
+    },
+    {
+      "userName": "user",
+      "password": "userpassword"
+    }
+  ]
+}

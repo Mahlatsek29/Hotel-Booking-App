@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import roomData from "../components/rommData"; // Import your roomData array
 
 function BookingUI() {
   const [numGuests, setNumGuests] = useState(1);
@@ -24,7 +23,7 @@ function BookingUI() {
       const nights = Math.ceil(
         (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
       );
-      const nightlyRate = 1000; // Assuming a nightly rate of $100
+      const nightlyRate = 1000; // You can adjust this rate as needed
       return nights * numGuests * nightlyRate;
     }
     return 0;

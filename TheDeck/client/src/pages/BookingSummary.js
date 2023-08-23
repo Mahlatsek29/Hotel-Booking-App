@@ -1,79 +1,32 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import the Link component
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import roomData from "../components/rommData";  
+import BookingSummaryComponent from "../components/BookingSummaryComponent"; 
 
-function BookingSummary({ checkInDate, checkOutDate, numGuests }) {
-  const [editing, setEditing] = useState(false);
-  const [editedCheckInDate, setEditedCheckInDate] = useState(checkInDate || new Date());
-  const [editedCheckOutDate, setEditedCheckOutDate] = useState(checkOutDate || new Date());
-  const [editedNumGuests, setEditedNumGuests] = useState(numGuests || 0);
+function BookingSummary() {
+  const { roomId } = useParams();
+  const room = roomData.find((room) => room.id === parseInt(roomId)); 
 
-  const calculateTotalAmount = () => {
-    const pricePerNight = 1500; // Change this to your actual price per night
-    return editedNumGuests * nights * pricePerNight;
-  };
-
-  const nights = editedCheckInDate && editedCheckOutDate
-    ? Math.ceil((editedCheckOutDate - editedCheckInDate) / (1000 * 60 * 60 * 24))
-    : 0;
-
-  const handleEditClick = () => {
-    setEditing(true);
-  };
-
-  const handleSaveClick = () => {
-    // Handle the save button click here
-    // For example: update the booking information and exit edit mode
-    setEditing(false);
-  };
+  if (!room) {
+    return <div>Room not found</div>;
+  }
 
   return (
-    <div className="card w-50">
-      <img src="/img/Room8.jpg" alt="Booking" className="card-img-top" />
-      <div className="card-body">
-        <h5 className="card-title">Booking Summary</h5>
-        {editing ? (
-          <>
-            <p className="card-text">
-              Check-in:{' '}
-              <input
-                type="date"
-                value={editedCheckInDate.toISOString().split('T')[0]}
-                onChange={(e) => setEditedCheckInDate(new Date(e.target.value))}
-              />
-            </p>
-            <p className="card-text">
-              Check-out:{' '}
-              <input
-                type="date"
-                value={editedCheckOutDate.toISOString().split('T')[0]}
-                onChange={(e) => setEditedCheckOutDate(new Date(e.target.value))}
-              />
-            </p>
-            <p className="card-text">
-              Number of Guests:{' '}
-              <input
-                type="number"
-                value={editedNumGuests}
-                onChange={(e) => setEditedNumGuests(parseInt(e.target.value))}
-              />
-            </p>
-            <button onClick={handleSaveClick}>Save</button>
-            <button onClick={() => setEditing(false)}>Cancel</button>
-          </>
-        ) : (
-          <>
-            <p className="card-text">Check-in: {editedCheckInDate.toLocaleDateString()}</p>
-            <p className="card-text">Check-out: {editedCheckOutDate.toLocaleDateString()}</p>
-            <p className="card-text">Number of Guests: {editedNumGuests}</p>
-            <p className="card-text">Nights: {nights}</p>
-            <p className="card-text">Total Amount: R{calculateTotalAmount()}</p>
-            <button onClick={handleEditClick}>Edit</button>
-            <Link to="/payment">
-              <button style={{ backgroundColor: '#806043' }}>Continue</button>
-            </Link>
-          </>
-        )}
+    <div className="container mt-4">
+      <div className="card" style={{ width: "50%" }}>
+        <div className="card-body">
+          <h5 className="card-title">Booking Summary</h5>
+          <p className="card-text">Room: {room.name}</p>
+          <p className="card-text">Nightly Rate: R{room.nightlyRate}</p>
+          {/* Display more relevant booking summary information */}
+        </div>
       </div>
+      <BookingSummaryComponent />
+      
+      {/* Add a "Continue to Payment" button */}
+      <Link to={`/payment/${roomId}`} className="btn btn-primary mt-3">
+        Continue
+      </Link>
     </div>
   );
 }

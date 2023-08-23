@@ -1,8 +1,26 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate function
+import adminData from '../components/adminData.json';
 
 function SignIn() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize the navigate function
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignIn = () => {
+    const user = adminData.admin.find(
+      user => user.userName === userName && user.password === password
+    );
+    if (user) {
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/bookingsummary');
+      }
+    } else {
+      alert('Invalid username or password');
+    }
+  };
 
   const wrapperStyle = {
     maxWidth: '350px',
@@ -71,19 +89,11 @@ function SignIn() {
     cursor: 'pointer',
   };
 
-  const handleSignIn = () => {
-    
-    navigate('/bookingsummary'); 
-  };
 
   return (
     <div style={wrapperStyle}>
       <div style={logoStyle}>
-        <img
-          src="img/LOGO.png"
-          alt=""
-          style={logoImgStyle}
-        />
+        <img src="img/LOGO.png" alt="" style={logoImgStyle} />
       </div>
       <div className="text-center mt-4" style={nameStyle}>
         SIGN-IN
@@ -114,8 +124,17 @@ function SignIn() {
         </button>
       </form>
       <div className="text-center fs-6">
-        <p>Forgot password? or <span style={linkStyle} onClick={() => navigate('/signup')}>Sign up</span></p>
+        <p>
+          Forgot password? or{' '}
+          <span style={linkStyle} onClick={() => navigate('/signup')}>
+            Sign up
+          </span>
+        </p>
       </div>
+      {/* Add a button to navigate to admin */}
+      <button className="btn mt-3" style={buttonStyle} onClick={() => navigate('/admin')}>
+        Go to Admin Page
+      </button>
     </div>
   );
 }

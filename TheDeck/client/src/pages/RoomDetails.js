@@ -1,15 +1,16 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import roomData from "../components/rommData";
+import { useParams, Link } from "react-router-dom";
 import BookingUI from "../components/BookingUI";
+import roomData from "../components/rommData"; // Make sure to correct the typo here
+import BookingSummaryComponent from "../components/BookingSummaryComponent"; // Renamed import
 
 function RoomDetails() {
   const { roomId } = useParams();
-  const room = roomData.find(room => room.id === parseInt(roomId));
+  const room = roomData.find((room) => room.id === parseInt(roomId));
 
-  if (!room) {
-    return <div>Room not found</div>;
-  }
+  // if (!room) {
+  //   return <div>Room not found</div>;
+  // }
 
   return (
     <div className="container mt-4">
@@ -19,10 +20,15 @@ function RoomDetails() {
           <h5 className="card-title">{room.name}</h5>
           <p className="card-text">{room.description}</p>
           <p className="card-text">Nightly Rate: R{room.nightlyRate}</p>
-          {/* Add additional details and booking functionality as needed */}
+          <Link to={`/bookingsummary${roomId}`}>Book</Link>
+
+          {/* Include the BookingUI component here */}
           <BookingUI />
         </div>
       </div>
+
+      {/* Use the renamed BookingSummaryComponent */}
+      <BookingSummaryComponent />
     </div>
   );
 }

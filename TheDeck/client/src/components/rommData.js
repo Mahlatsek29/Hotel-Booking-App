@@ -4,7 +4,7 @@ const roomData = [
       name: "Standard Room",
       description: "Discover simplicity and comfort in our Standard Room...",
       imageSrc: "/img/Room8.jpg",
-      nightlyRate: 2300,
+      nightlyRate: 1500,
     },
     {
         id: 2,
