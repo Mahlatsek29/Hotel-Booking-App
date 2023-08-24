@@ -12,6 +12,8 @@ import BookingSummary from './pages/BookingSummary';
 import Payment from './pages/Payment';
 import AdminPage from './pages/AdminPage';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import Success from './pages/Success';
+import Cancel from './pages/Cancel';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="/roomdetails/:roomId" element={<RoomDetails />} />
           <Route path="/bookingsummary/:roomId" element={<BookingSummary />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/cancel" element={<Cancel />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
         <Footer />

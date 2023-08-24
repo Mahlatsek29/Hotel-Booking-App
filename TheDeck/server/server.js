@@ -1,9 +1,11 @@
-require("dotenv").config();
+require('dotenv').config()
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const User = require("./models/user");
+const RoomDetails = require("./models/roomDetails")
 
 const app = express();
 
@@ -15,7 +17,7 @@ app.use(morgan("tiny"));
 // MongoDB Connection
 mongoose.connect("mongodb://127.0.0.1:27017/Hotel", {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 })
 .then(() => {
   console.log("Connected to MongoDB");
@@ -24,23 +26,60 @@ mongoose.connect("mongodb://127.0.0.1:27017/Hotel", {
   console.error("Error connecting to MongoDB:", err);
 });
 
-// Replace this with your User model definition and import
-const User = require("./models/user"); // Example path
 
-// Signup Route
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
+
+const storeItems = new Map([
+  [1, { priceInCents: 10000, name: "Learn React Today" }],
+  [2, { priceInCents: 20000, name: "Learn CSS Today" }],
+])
+
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: req.body.items.map(item => {
+        const storeItem = storeItems.get(item.id)
+        return {
+          price_data: {
+            currency: "zar",
+            product_data: {
+              name: storeItem.name,
+            },
+            unit_amount: storeItem.priceInCents,
+          },
+          quantity: item.quantity,
+        }
+      }),
+      success_url: `${process.env.CLIENT_URL}/success`,
+      cancel_url: `${process.env.CLIENT_URL}/cancel`,
+    })
+    res.json({ url: session.url })
+  } catch (e) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+
 app.post("/signup", async (req, res) => {
   try {
-    const { fullName, email, password, phone } = req.body;
-    
+    const { name, email, password, phone } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: "Email is already taken" });
+    }
+
     const newUser = new User({
-      fullName,
+      name,
       email,
       password,
       phone
     });
-    
+
     const savedUser = await newUser.save();
-    
+
     res.status(201).json({ message: "User registered successfully", user: savedUser });
   } catch (error) {
     console.error("Error registering user:", error);
@@ -51,32 +90,48 @@ app.post("/signup", async (req, res) => {
 // Signin Route
 app.post("/signin", async (req, res) => {
   try {
+    console.log("Sign-in request received:", req.body);
+    
     const { email, password } = req.body;
+    console.log("Email:", email);
 
-    // Replace this with your actual user authentication logic
-    const isValidCredentials = await User.authenticate(email, password);
+    const user = await User.findOne({ email }); 
+    console.log("User:", user);
 
-    if (isValidCredentials) {
-      const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-        expiresIn: "1h"
-      });
-
+    if (user) {
+      // Generate a token and send it in the response
+      const token = generateToken(email);
       res.status(200).json({ token });
     } else {
       res.status(401).json({ error: "Invalid credentials" });
     }
   } catch (error) {
     console.error("Error logging in:", error);
+    console.error("Error message:", error.message);
     res.status(500).json({ error: "An error occurred while logging in" });
   }
 });
 
-// Protected Route
-app.get("/protected", (req, res) => {
-  res.status(200).json({ message: "You have access to this protected route" });
+
+app.get("/api/rooms", async (req, res) => {
+  try {
+    const allRooms = await RoomDetails.find();
+    res.status(200).json(allRooms);
+  } catch (error) {
+    console.error("Error fetching rooms:", error);
+    res.status(500).json({ error: "An error occurred while fetching rooms" });
+  }
 });
 
-// Start Server
+
+// Function to generate a JWT token
+function generateToken(email) {
+  // Generate a token with a specific expiration time
+  return jwt.sign({ email }, "your_secret_key", {
+    expiresIn: "1h",
+  });
+}
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server started...\nClick the URL to gain access: http://localhost:${PORT}/`);
