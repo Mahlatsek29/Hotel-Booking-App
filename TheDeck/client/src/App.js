@@ -26,7 +26,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/roomdetails/:roomId" element={<RoomDetails />} />
+          <Route path="/roomdetails/:name" component={RoomDetails} />
           <Route path="/bookingsummary/:roomId" element={<BookingSummary />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/success" element={<Success />} />

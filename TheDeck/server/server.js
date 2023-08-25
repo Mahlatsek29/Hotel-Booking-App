@@ -123,6 +123,17 @@ app.get("/api/rooms", async (req, res) => {
   }
 });
 
+app.get("/api/rooms/:name", async (req, res) => {
+  try {
+
+    const room = await RoomDetails.findOne({ name: req.params.name });
+
+    res.status(200).json(room);
+  } catch (error) {
+    console.error("Error fetching room:", error);
+    res.status(500).json({ error: "An error occurred while fetching room" });
+  }
+});
 
 // Function to generate a JWT token
 function generateToken(email) {

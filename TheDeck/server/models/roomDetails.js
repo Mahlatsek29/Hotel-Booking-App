@@ -4,12 +4,12 @@ const mongoose = require('mongoose');
 const roomSchema = new mongoose.Schema({
   name: {
     type: String,
-    // required: true
+    required: true
   },
   description: {
     type: String,
     required: true,
-    // unique: true
+    unique: true
   },
   imageSrc: {
     type: String,
@@ -17,7 +17,7 @@ const roomSchema = new mongoose.Schema({
   },
   nightlyRate: {
     type: String,
-//     required: true
+    required: true
   }
 });
 

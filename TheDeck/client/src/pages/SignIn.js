@@ -185,7 +185,8 @@ const SignIn = () => {
           color: "#806043",
         }}
       >
-        <Link to="#">Forget password?</Link> or <Link to="#">Sign Up</Link>
+        Don't Have an Account?
+       <Link to="#">Sign-Up</Link>
       </div>
     </div>
   );
