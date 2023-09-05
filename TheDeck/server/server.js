@@ -9,12 +9,10 @@ const RoomDetails = require("./models/roomDetails")
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
-// MongoDB Connection
 mongoose.connect("mongodb://127.0.0.1:27017/Hotel", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -25,7 +23,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/Hotel", {
 .catch(err => {
   console.error("Error connecting to MongoDB:", err);
 });
-
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
@@ -61,7 +58,6 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 })
 
-
 app.post("/signup", async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
@@ -87,7 +83,6 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// Signin Route
 app.post("/signin", async (req, res) => {
   try {
     console.log("Sign-in request received:", req.body);
@@ -99,7 +94,7 @@ app.post("/signin", async (req, res) => {
     console.log("User:", user);
 
     if (user) {
-      // Generate a token and send it in the response
+     
       const token = generateToken(email);
       res.status(200).json({ token });
     } else {
@@ -135,9 +130,8 @@ app.get("/api/rooms/:name", async (req, res) => {
   }
 });
 
-// Function to generate a JWT token
 function generateToken(email) {
-  // Generate a token with a specific expiration time
+  
   return jwt.sign({ email }, "your_secret_key", {
     expiresIn: "1h",
   });

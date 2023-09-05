@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// const { default: RoomDetails } = require('../../client/src/pages/RoomDetails');
 
 const roomSchema = new mongoose.Schema({
   name: {
