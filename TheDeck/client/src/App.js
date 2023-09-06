@@ -1,3 +1,4 @@
+// App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -7,7 +8,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import RoomDetails from './pages/RoomDetails';
+import RoomDetails from './pages/RoomDetails'; // Import RoomDetails
 import BookingSummary from './pages/BookingSummary';
 import Payment from './pages/Payment';
 import AdminPage from './pages/AdminPage';
@@ -19,15 +20,15 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar /> {/* Add the Navbar component here */}
+        <Navbar />
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/roomdetails/:name" component={RoomDetails} />
-          <Route path="/bookingsummary/:roomId" element={<BookingSummary />} />
+          <Route path="/roomdetails" element={<RoomDetails />} /> {/* Corrected route */}
+          <Route path= "/bookingsummary" element={<BookingSummary />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />

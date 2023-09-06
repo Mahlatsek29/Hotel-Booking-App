@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch rooms when the component mounts
     fetchRooms();
   }, []);
 
@@ -17,6 +17,13 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching rooms:", error);
     }
+  };
+
+  // Define a function to handle the "View" button click
+  const handleViewClick = (roomName) => {
+    localStorage.setItem('name', roomName);
+    
+    navigate('/roomdetails');
   };
 
   return (
@@ -34,12 +41,13 @@ const Home = () => {
                 <div className="card-body">
                   <h5 className="card-title">{room.name}</h5>
                   <p className="card-text">{room.description}</p>
-                  <Link
-                    to={`/roomdetails/${room.name}`}
+                  {/* Replace Link with a button and add onClick event handler */}
+                  <button
                     className="btn btn-primary custom-view-button"
+                    onClick={() => handleViewClick(room.name)}
                   >
                     View
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>

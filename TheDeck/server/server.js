@@ -119,11 +119,14 @@ app.get("/api/rooms", async (req, res) => {
 });
 
 app.get("/api/rooms/:name", async (req, res) => {
+  console.log('this api is bein called')
   try {
-
     const room = await RoomDetails.findOne({ name: req.params.name });
-
-    res.status(200).json(room);
+    if (!room) {
+      res.status(404).json({ error: "Room not found" });
+    } else {
+      res.status(200).json(room);
+    }
   } catch (error) {
     console.error("Error fetching room:", error);
     res.status(500).json({ error: "An error occurred while fetching room" });
