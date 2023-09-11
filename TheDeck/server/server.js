@@ -133,6 +133,20 @@ app.get("/api/rooms/:name", async (req, res) => {
   }
 });
 
+
+app.get("/api/rooms/:_id", async (req, res) => {
+  try {
+    const room = await RoomDetails.findOne({ _id: req.params._id });
+    if (!room) {
+      return res.status(404).json({ error: "Room not found" });
+    }
+    res.status(200).json(room);
+  } catch (error) {
+    console.error("Error fetching room:", error);
+    res.status(500).json({ error: "An error occurred while fetching room" });
+  }
+});
+
 function generateToken(email) {
   
   return jwt.sign({ email }, "your_secret_key", {

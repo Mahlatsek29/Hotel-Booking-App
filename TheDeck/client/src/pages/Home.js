@@ -19,7 +19,6 @@ const Home = () => {
     }
   };
 
-  // Define a function to handle the "View" button click
   const handleViewClick = (roomName) => {
     localStorage.setItem('name', roomName);
     
@@ -41,7 +40,7 @@ const Home = () => {
                 <div className="card-body">
                   <h5 className="card-title">{room.name}</h5>
                   <p className="card-text">{room.description}</p>
-                  {/* Replace Link with a button and add onClick event handler */}
+            
                   <button
                     className="btn btn-primary custom-view-button"
                     onClick={() => handleViewClick(room.name)}

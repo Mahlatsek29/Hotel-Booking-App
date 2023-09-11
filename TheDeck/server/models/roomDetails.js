@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const roomSchema = new mongoose.Schema({
+  
   name: {
     type: String,
     required: true
@@ -17,6 +18,10 @@ const roomSchema = new mongoose.Schema({
   nightlyRate: {
     type: String,
     required: true
+  },
+  calculatedRate: {
+    type: Number,
+    default: null,
   }
 });
 

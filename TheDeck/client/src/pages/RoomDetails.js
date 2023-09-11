@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import BookingSummaryComponent from "../components/BookingSummaryComponent"; 
-
+import BookingUI from "../components/BookingUI"; // Make sure this import is correct
 import { useNavigate } from "react-router-dom";
+
 function RoomDetails() {
-  
   const [room, setRoom] = useState({});
-  const roomName = localStorage.getItem('name')
-   const navigate = useNavigate()
+  const roomName = localStorage.getItem("name");
+  const navigate = useNavigate(); // Use useNavigate for navigation
+
   useEffect(() => {
     fetchRoomDetails();
   }, []);
 
   const fetchRoomDetails = async () => {
     try {
-      const response = await axios.get(`http://192.168.1.15:8080/api/rooms/${roomName}`);
+      const response = await axios.get(
+        `http://192.168.1.15:8080/api/rooms/${roomName}`
+      );
       setRoom(response.data);
     } catch (error) {
       console.error("Error fetching room details:", error);
     }
   };
 
-  const handleViewClick = () => {    
-    
-    navigate("bookingsummary");
+  const handleViewClick = () => {
+    const roomId = room._id;
+    localStorage.setItem('roomId', roomId);
+    navigate('bookingsummary');
   };
 
   return (
@@ -35,14 +38,13 @@ function RoomDetails() {
           <h5 className="card-title">{room.name}</h5>
           <p className="card-text">{room.description}</p>
           <p className="card-text">Nightly Rate: R{room.nightlyRate}</p>
-          <BookingSummaryComponent />
+          <BookingUI />
           <button
-                    className="btn btn-primary custom-view-button"
-                    onClick={() => handleViewClick(room._id
-                      )}
-                  >
-                   
-                  </button>
+            className="btn btn-primary custom-view-button"
+            onClick={handleViewClick}
+          >
+           Book
+          </button>
         </div>
       </div>
     </div>

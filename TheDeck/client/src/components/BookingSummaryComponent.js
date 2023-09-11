@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import roomData from "../components/rommData"; // Make sure to correct the typo here
+import roomData from "../components/rommData";
 
 function BookingSummary() {
   const { roomid } = useParams();

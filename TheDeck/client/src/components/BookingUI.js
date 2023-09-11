@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import roomData from "../components/rommData"; // Make sure the path is correct based on your project structure
+import roomData from "./rommData"; 
 
 function BookingUI() {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
-  const selectedRoomIds = [3, 4]; // Change this to the desired room IDs
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
 
   const handleCheckInChange = (date) => {
     setCheckInDate(date);
@@ -16,27 +16,27 @@ function BookingUI() {
     setCheckOutDate(date);
   };
 
+  const handleRoomSelection = (roomId) => {
+    setSelectedRoomId(roomId);
+  };
+
   const calculateTotalAmountForRoom = (roomId, numNights) => {
     const selectedRoom = roomData.find((room) => room.id === roomId);
     if (selectedRoom) {
-      console.log('selected room:',selectedRoom)
-      console.log('amount: ',selectedRoom.nightlyRate)
-      return selectedRoom.nightlyRate; // Just the nightly rate for one night
+      const nightlyRate = selectedRoom.nightlyRate;
+      return nightlyRate * numNights; 
     }
     return 0;
   };
 
   let totalAmount = 0;
-  if (checkInDate && checkOutDate) {
+
+  if (checkInDate && checkOutDate && selectedRoomId) {
     const numNights = Math.ceil(
       (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
     );
 
-    totalAmount = selectedRoomIds.reduce(( roomId) => {
-      console.log ("roomId.nr", roomId.nightlyRate)
-      const roomTotal = roomData .nightlyRate* numNights
-      return  roomTotal;
-    }, 0);
+    totalAmount = calculateTotalAmountForRoom(selectedRoomId, numNights);
   }
 
   return (
@@ -64,14 +64,9 @@ function BookingUI() {
           className="form-control"
         />
       </div>
-      <br />
       <div className="total-amount">
         <p>
-          Total Amount for{" "}
-          {checkInDate && checkOutDate
-            ? `${(checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)} nights`
-            : "0 nights"}
-          : R{totalAmount.toFixed(2)}
+          Total Amount for the selected room: R{totalAmount.toFixed(2)}
         </p>
       </div>
     </div>
