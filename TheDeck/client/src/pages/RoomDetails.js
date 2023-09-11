@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function RoomDetails() {
   const [room, setRoom] = useState({});
   const roomName = localStorage.getItem("name");
-  const navigate = useNavigate(); // Use useNavigate for navigation
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     fetchRoomDetails();
