@@ -15,6 +15,7 @@ import AdminPage from "./pages/AdminPage";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
+import LostPage from "./pages/LostPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/error" element={<LostPage />} />
         </Routes>
         <Footer />
       </div>

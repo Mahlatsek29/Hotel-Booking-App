@@ -133,7 +133,6 @@ app.get("/api/rooms/:name", async (req, res) => {
   }
 });
 
-
 app.get("/api/rooms/:_id", async (req, res) => {
   try {
     const room = await RoomDetails.findOne({ _id: req.params._id });
@@ -145,6 +144,17 @@ app.get("/api/rooms/:_id", async (req, res) => {
     console.error("Error fetching room:", error);
     res.status(500).json({ error: "An error occurred while fetching room" });
   }
+});
+
+app.get('/api/rooms/:roomId', (req, res) => {
+  const { roomId } = req.params;
+  const room = rooms[roomId];
+
+  if (!room) {
+    return res.status(404).json({ error: 'Room not found' });
+  }
+
+  res.json(room);
 });
 
 function generateToken(email) {

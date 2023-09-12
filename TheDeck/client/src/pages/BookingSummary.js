@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BookingSummaryComponent from "../components/BookingSummaryComponent";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// Remove the redundant declaration of BookingSummary here
-
 function BookingSummary() {
-  const { name } = useParams(); 
+  const _id  = localStorage.getItem('_id')
   const [room, setRoom] = useState({});
   const navigate = useNavigate();
-  const _Id = localStorage.getItem('roomId')
- 
+  console.log('ID is : ',_id)
   useEffect(() => {
     fetchRoomDetails();
-  }, [_Id]); 
+  }, [_id]);
 
   const fetchRoomDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/rooms/${_Id}`);
+      const response = await axios.get(`http://localhost:8080/api/rooms/${_id}`);
       setRoom(response.data);
     } catch (error) {
       console.error("Error fetching room details:", error);
-      navigate("/error"); 
+      navigate("/error");
     }
   };
 

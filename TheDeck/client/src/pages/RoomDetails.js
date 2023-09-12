@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import BookingUI from "../components/BookingUI"; // Make sure this import is correct
+import BookingUI from "../components/BookingUI";
 import { useNavigate } from "react-router-dom";
 
 function RoomDetails() {
   const [room, setRoom] = useState({});
   const roomName = localStorage.getItem("name");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchRoomDetails();
@@ -24,9 +24,10 @@ function RoomDetails() {
   };
 
   const handleViewClick = () => {
-    const roomId = room._id;
-    localStorage.setItem('roomId', roomId);
-    navigate('bookingsummary');
+    const _id = room.name;
+    console.log('Id is : ',_id)
+    localStorage.setItem("_id", _id);
+    navigate("../bookingsummary");
   };
 
   return (
@@ -42,7 +43,7 @@ function RoomDetails() {
             className="btn btn-primary custom-view-button"
             onClick={handleViewClick}
           >
-           Book
+            Book
           </button>
         </div>
       </div>
