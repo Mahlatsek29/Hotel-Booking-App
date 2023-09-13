@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Error from "../components/Error";
+import Loader from "../components/Loader";
+import Success from "./Success";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [loading, setloading] = useState (false);
+  const [error, seterror] = useState ();
+  const [success, setsuccess] = useState();
 
   const navigate = useNavigate();
 
@@ -15,18 +21,23 @@ const SignUp = () => {
     e.preventDefault();
     if (validate()) {
       try {
+        setloading(!true);
         const response = await axios.post("http://localhost:8080/signup", {
           name,
           email,
           password,
           phone
         });
+        setloading(false)
+        setsuccess(true)
 
-        toast.success("User registered successfully");
+        // toast.success("User registered successfully");
         navigate("/signin");
       } catch (error) {
         if (error.response && error.response.data && error.response.data.error) {
           alert(error.response.data.error);
+          setloading(false);
+          seterror(true);
         } else {
           alert("An error occurred while signing up");
         }
@@ -68,6 +79,9 @@ const SignUp = () => {
         boxShadow: "13px 13px 20px #cbced1, -13px -13px 20px #fff",
       }}
     >
+      {loading &&(<Loader/>)}
+      {error &&(<Error/>)}
+      {success && (<Success/>)}
       <div
         style={{
           width: "80px",
