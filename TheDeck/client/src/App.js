@@ -10,7 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import RoomDetails from "./pages/RoomDetails";
 import BookingSummary from "./pages/BookingSummary";
-import Payment from "./pages/Payment";
+import Payment from "./pages/PaymentScreen";
 import AdminPage from "./pages/AdminPage";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Success from "./pages/Success";

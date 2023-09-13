@@ -21,7 +21,6 @@ const Home = () => {
 
   const handleViewClick = (roomName) => {
     localStorage.setItem('name', roomName);
-    
     navigate('/roomdetails');
   };
 

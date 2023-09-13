@@ -37,7 +37,7 @@ function RoomDetails() {
         <div className="card-body">
           <h5 className="card-title">{room.name}</h5>
           <p className="card-text">{room.description}</p>
-          <p className="card-text">Nightly Rate: R{room.nightlyRate}</p>
+          {/* <p className="card-text">Nightly Rate: R{room.nightlyRate}</p> */}
           <BookingUI />
           <button
             className="btn btn-primary custom-view-button"
