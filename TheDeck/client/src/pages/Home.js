@@ -30,7 +30,7 @@ const Home = () => {
         <div className="row row-cols-1 row-cols-md-2 g-4 card-container">
           {rooms.map((room) => (
             <div className="col" key={room._id}>
-              <div className="card card-equal-height">
+              <div className="card card-equal-height" style={{ boxShadow: "0px 5px 15px #806043" }}>
                 <img
                   src={room.imageSrc}
                   className="card-img-top"

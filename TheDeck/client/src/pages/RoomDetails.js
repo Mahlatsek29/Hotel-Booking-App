@@ -32,19 +32,21 @@ function RoomDetails() {
 
   return (
     <div className="container mt-4">
-      <div className="card" style={{ width: "75vh" }}>
-        <img className="card-img-top" src={room.imageSrc} alt={room.name} />
-        <div className="card-body">
-          <h5 className="card-title">{room.name}</h5>
-          <p className="card-text">{room.description}</p>
-          {/* <p className="card-text">Nightly Rate: R{room.nightlyRate}</p> */}
-          <BookingUI />
-          <button
-            className="btn btn-primary custom-view-button"
-            onClick={handleViewClick}
-          >
-            Book
-          </button>
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
+        <div className="card" style={{ width: "75vh", boxShadow: "0px 5px 15px #806043" }}>
+          <img className="card-img-top" src={room.imageSrc} alt={room.name} />
+          <div className="card-body">
+            <h5 className="card-title">{room.name}</h5>
+            <p className="card-text">{room.description}</p>
+            {/* <p className="card-text">Nightly Rate: R{room.nightlyRate}</p> */}
+            <BookingUI />
+            <button
+              className="btn btn-primary custom-view-button"
+              onClick={handleViewClick}
+            >
+              Book
+            </button>
+          </div>
         </div>
       </div>
     </div>

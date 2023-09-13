@@ -24,7 +24,7 @@ function Navbar() {
   return (
     <div>
       {/* Navigation bar */}
-      <nav className="navbar navbar-expand-lg">
+      <nav className="navbar navbar-expand-lg" style={{ boxShadow: '0px 5px 15px #806043' }}>
         <div className="container-fluid">
           {/* Navbar brand */}
           <button
