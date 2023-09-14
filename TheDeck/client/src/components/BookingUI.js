@@ -1,39 +1,43 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import calculateNightlyRate from "./calculateNightlyRate";
 
 const roomData = [
   {
     id: 1,
-    nightlyRate: 1500, // Replace with the actual nightly rate for this room
+    nightlyRate: 1500,
   },
   {
     id: 2,
-    nightlyRate: 2500, // Replace with the actual nightly rate for this room
+    nightlyRate: 2500,
   },
   {
     id: 3,
-    nightlyRate: 3000, // Replace with the actual nightly rate for this room
+    nightlyRate: 3000,
   },
   {
     id: 4,
-    nightlyRate: 3500, // Replace with the actual nightly rate for this room
+    nightlyRate: 3500,
   },
-
 ];
 
 function BookingUI() {
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
-  const [numGuests, setNumGuests] = useState(1); // Initial number of guests is 1
-  const [selectedRoomId, setSelectedRoomId] = useState(null); // Selected room ID
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
+  const [numGuests, setNumGuests] = useState(1);
 
   const handleCheckInChange = (date) => {
     setCheckInDate(date);
+    console.log('date is ', date)
+    localStorage.setItem('checkInDate',date)
+    console.log('checkindate is ', checkInDate)
   };
 
   const handleCheckOutChange = (date) => {
     setCheckOutDate(date);
+    localStorage.setItem('checkOutDate',date)
+    console.log('checkoutdate is ', checkOutDate)
   };
 
   const handleIncrementGuests = () => {
@@ -48,27 +52,22 @@ function BookingUI() {
     }
   };
 
-  const handleRoomSelection = (roomId) => {
-    // Set the selected room ID
-    setSelectedRoomId(roomId);
+  const calculateTotalAmount = () => {
+    if (checkInDate && checkOutDate) {
+      const numDays = Math.ceil(
+        (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
+      );
+
+      // Calculate the nightly rate based on the selected room ID (replace with your desired room ID)
+      const roomIdToCalculate = 2; // Replace with the desired room ID
+      const nightlyRate = calculateNightlyRate(roomIdToCalculate);
+
+      return nightlyRate * numDays * numGuests;
+    }
+    return 0;
   };
 
-  let totalAmount = 0;
-  let nightlyRate = 0;
-
-  if (checkInDate && checkOutDate && selectedRoomId) {
-    const numDays = Math.ceil(
-      (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
-    );
-
-    // Find the selected room based on the ID
-    const selectedRoom = roomData.find((room) => room.id === selectedRoomId);
-
-    if (selectedRoom) {
-      nightlyRate = selectedRoom.nightlyRate;
-      totalAmount = nightlyRate * numDays;
-    }
-  }
+  const totalAmount = calculateTotalAmount();
 
   return (
     <div>
@@ -95,20 +94,6 @@ function BookingUI() {
           className="form-control"
         />
       </div>
-      <div className="room-selection">
-        <label>Select a Room: </label>
-        <select
-          value={selectedRoomId}
-          onChange={(e) => handleRoomSelection(parseInt(e.target.value))}
-        >
-          <option value={null}>Select a room</option>
-          {roomData.map((room) => (
-            <option key={room.id} value={room.id}>
-              Room {room.id}
-            </option>
-          ))}
-        </select>
-      </div>
       <div className="guests-container">
         <label>Number of Guests: </label>
         <button onClick={handleDecrementGuests}>-</button>
@@ -116,8 +101,8 @@ function BookingUI() {
         <button onClick={handleIncrementGuests}>+</button>
       </div>
       <div className="total-amount">
-        <p>Total: R{totalAmount.toFixed(2)}</p>
-        <p>Nightly Rate: R{nightlyRate.toFixed(2)}</p>
+        <p>Total: R{totalAmount}</p>
+
       </div>
     </div>
   );

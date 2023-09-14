@@ -10,7 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import RoomDetails from "./pages/RoomDetails";
 import BookingSummary from "./pages/BookingSummary";
-import Payment from "./pages/PaymentScreen";
+import Payment from "./pages/Payment";
 import AdminPage from "./pages/AdminPage";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Success from "./pages/Success";
@@ -30,7 +30,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/roomdetails" element={<RoomDetails />} />
           <Route path="/bookingsummary" element={<BookingSummary />} />
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment" element={<Payment/>} />
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
           <Route path="/admin" element={<AdminPage />} />

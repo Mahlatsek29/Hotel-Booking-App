@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import the carousel styles
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
@@ -20,17 +22,30 @@ const Home = () => {
   };
 
   const handleViewClick = (roomName) => {
-    localStorage.setItem('name', roomName);
-    navigate('/roomdetails');
+    localStorage.setItem("name", roomName);
+    navigate("/roomdetails");
   };
 
   return (
-    <div>
-      <div className="container">
-        <div className="row row-cols-1 row-cols-md-2 g-4 card-container">
+    <div className="container">
+      <div className="carousel-container">
+        {" "}
+        {/* Add this container */}
+        <Carousel
+          showArrows={true}
+          infiniteLoop={true}
+          showThumbs={false}
+          width="120vh"
+          height="400px"
+          autoPlay={true}
+          interval={3000}
+        >
           {rooms.map((room) => (
-            <div className="col" key={room._id}>
-              <div className="card card-equal-height" style={{ boxShadow: "0px 5px 15px #806043" }}>
+            <div key={room._id}>
+              <div
+                className="card card-equal-height"
+                style={{ boxShadow: "0px 5px 15px #806043" }}
+              >
                 <img
                   src={room.imageSrc}
                   className="card-img-top"
@@ -39,7 +54,7 @@ const Home = () => {
                 <div className="card-body">
                   <h5 className="card-title">{room.name}</h5>
                   <p className="card-text">{room.description}</p>
-            
+
                   <button
                     className="btn btn-primary custom-view-button"
                     onClick={() => handleViewClick(room.name)}
@@ -50,7 +65,7 @@ const Home = () => {
               </div>
             </div>
           ))}
-        </div>
+        </Carousel>
       </div>
     </div>
   );

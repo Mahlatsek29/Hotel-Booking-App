@@ -7,7 +7,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Poltawski Nowy', serif ! important;
-  
 }
 
 code {
@@ -34,15 +33,18 @@ footer {
   background-color: #0050B5 !important;
   color: white !important;
 }
-
-
 .custom-text-color {
   color: #50C878;
 }
 .card-container {
   margin: -1rem; /* Adjust the negative margin to create space between cards */
 }
-
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 .card {
   height: 100%; /* Make the cards take up full height of the container */
   display: flex;

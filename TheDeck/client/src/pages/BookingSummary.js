@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BookingSummaryComponent from "../components/BookingSummaryComponent";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 
 function BookingSummary() {
-  const _id  = localStorage.getItem('_id')
+  const _id  = localStorage.getItem('_id');
+  const checkInDate =  localStorage.getItem('checkInDate')
+  const checkOutDate =  localStorage.getItem('checkOutDate')
+  console.log('checkoutdate is ',checkOutDate, ' checkindate is ',checkInDate )
   const [room, setRoom] = useState({});
+  const [numGuests, setNumGuests] = useState(1); // Define number of guests
+
   const navigate = useNavigate();
-  console.log('ID is : ',_id)
+  console.log('ID is : ',_id);
+
   useEffect(() => {
     fetchRoomDetails();
   }, [_id]);
@@ -27,6 +33,23 @@ function BookingSummary() {
     navigate("payment");
   };
 
+  // Define the totalAmount calculation based on nightly rate, check-in date, check-out date, and number of guests
+  const calculateTotalAmount = () => {
+    if (checkInDate && checkOutDate) {
+      const numDays = Math.ceil(
+        (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
+      );
+
+      // Calculate the nightly rate based on the selected room ID
+      const nightlyRate = room.nightlyRate;
+
+      return nightlyRate * numDays * numGuests;
+    }
+    return 0;
+  };
+
+  const totalAmount = calculateTotalAmount();
+
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
@@ -37,12 +60,16 @@ function BookingSummary() {
               <h5 className="card-title">{room.name}</h5>
               <p className="card-text">{room.description}</p>
               <p className="card-text">Nightly Rate: R{room.nightlyRate}</p>
+              <p className="card-text">Check-in Date: {checkInDate}</p>
+              <p className="card-text">Check-out Date: {checkOutDate}</p>
+              <p className="card-text">Number of Guests: {numGuests}</p>
+              <p className="card-text">Total Amount: R{totalAmount.toFixed(2)}</p>
               <BookingSummaryComponent />
               <button
                 className="btn btn-primary custom-view-button"
-                onClick={handleViewClick}
+                onClick={handleViewClick }
               >
-                View Booking Summary
+               Pay Now
               </button>
             </div>
           </div>

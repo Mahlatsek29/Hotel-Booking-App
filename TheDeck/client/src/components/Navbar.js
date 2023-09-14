@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons'; // Import icons
+import backgroundImage from '../backgroundImage/backgroundImage.jpg';
+import { useSpring, animated } from 'react-spring';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -9,32 +11,45 @@ function Navbar() {
 
   const handleNavigation = (path) => {
     navigate(path);
-    setNavbarOpen(false); // Close the navbar after navigation
+    setNavbarOpen(false);
   };
 
   const handleButtonClick = () => {
-    setNavbarOpen(!isNavbarOpen); // Toggle the navbar
+    setNavbarOpen(!isNavbarOpen);
   };
 
   const handleProfileClick = () => {
-    navigate("/signin"); // Navigate to sign-in page
-    setNavbarOpen(false); // Close the navbar
+    navigate('/signin');
+    setNavbarOpen(false);
   };
+
+  // Create spring animations for various style properties
+  const brandSpring = useSpring({
+    transform: isNavbarOpen ? 'scale(1.2)' : 'scale(1)',
+  });
+
+  const linkSpring = useSpring({
+    color: isNavbarOpen ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.7)',
+  });
+
+  const iconSpring = useSpring({
+    transform: isNavbarOpen ? 'rotate(360deg)' : 'rotate(0deg)',
+  });
 
   return (
     <div>
-      {/* Navigation bar */}
-      <nav className="navbar navbar-expand-lg" style={{ boxShadow: '0px 5px 15px #806043' }}>
+      <nav
+        className="navbar navbar-expand-lg"
+        style={{
+          boxShadow: '0px 5px 15px #806043',
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+        }}
+      >
         <div className="container-fluid">
-          {/* Navbar brand */}
-          <button
-            className="navbar-brand"
-            onClick={() => handleNavigation("/home")}
-          >
-            The Deck Hotel
+          <button className="navbar-brand" onClick={() => handleNavigation('/home')}>
+            <animated.span style={brandSpring}>The Deck Hotel</animated.span>
           </button>
-
-          {/* Navbar toggler */}
           <button
             className="navbar-toggler"
             type="button"
@@ -45,40 +60,33 @@ function Navbar() {
             aria-label="Toggle navigation"
             onClick={handleButtonClick}
           >
-            <span className="navbar-toggler-icon"></span>
+            <animated.span style={iconSpring}>
+              <span className="navbar-toggler-icon"></span>
+            </animated.span>
           </button>
-
-          {/* Navbar menu items */}
           <div className={`collapse navbar-collapse ${isNavbarOpen ? 'show' : ''}`} id="navbarNav">
-            <ul className="navbar-nav">
+            <ul className="navbar-nav mx-auto"> {/* Use mx-auto class to center */}
               <li className="nav-item">
-                <button
-                  className="nav-link"
-                  onClick={() => handleNavigation("/home")}
-                >
-                  HOME
+                <button className="nav-link" onClick={() => handleNavigation('/home')}>
+                  <animated.span style={linkSpring}>
+                    <FontAwesomeIcon icon={faHome} /> HOME
+                  </animated.span>
                 </button>
               </li>
               <li className="nav-item">
-                <button
-                  className="nav-link"
-                  onClick={() => handleNavigation("/about")}
-                >
-                  ABOUT
+                <button className="nav-link" onClick={() => handleNavigation('/about')}>
+                  <animated.span style={linkSpring}>
+                    <FontAwesomeIcon icon={faInfoCircle} /> ABOUT
+                  </animated.span>
                 </button>
               </li>
             </ul>
           </div>
-
-          {/* Profile icon */}
           <div className="ml-auto">
-            <button
-              className="profile-icon-button"
-              onClick={handleProfileClick} // Navigate to sign-in page
-            >
-              <div className="profile-icon">
+            <button className="profile-icon-button" onClick={handleProfileClick}>
+              <animated.div style={iconSpring} className="profile-icon">
                 <FontAwesomeIcon icon={faUser} />
-              </div>
+              </animated.div>
             </button>
           </div>
         </div>
