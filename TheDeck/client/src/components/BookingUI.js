@@ -31,24 +31,28 @@ function BookingUI() {
     setCheckInDate(date);
     console.log('date is ', date)
     localStorage.setItem('checkInDate',date)
-    console.log('checkindate is ', checkInDate)
+    console.log('checkIndate is ', checkInDate)
   };
 
   const handleCheckOutChange = (date) => {
     setCheckOutDate(date);
     localStorage.setItem('checkOutDate',date)
-    console.log('checkoutdate is ', checkOutDate)
+    console.log('checkOutdate is ', checkOutDate)
   };
 
   const handleIncrementGuests = () => {
+    localStorage.setItem('numGuests + 1',numGuests)
     // Increase the number of guests by 1
     setNumGuests(numGuests + 1);
+    
   };
 
   const handleDecrementGuests = () => {
+    localStorage.setItem('numGuests - 1',numGuests)
     // Decrease the number of guests by 1, with a minimum of 1 guest
     if (numGuests > 1) {
       setNumGuests(numGuests - 1);
+     
     }
   };
 
@@ -102,7 +106,6 @@ function BookingUI() {
       </div>
       <div className="total-amount">
         <p>Total: R{totalAmount}</p>
-
       </div>
     </div>
   );

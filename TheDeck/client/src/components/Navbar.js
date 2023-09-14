@@ -29,7 +29,7 @@ function Navbar() {
   });
 
   const linkSpring = useSpring({
-    color: isNavbarOpen ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.7)',
+    color: isNavbarOpen ? 'rgba(76, 59, 41, 1)' : 'rgba(255, 255, 255, 0.7)',
   });
 
   const iconSpring = useSpring({
@@ -68,14 +68,14 @@ function Navbar() {
             <ul className="navbar-nav mx-auto"> {/* Use mx-auto class to center */}
               <li className="nav-item">
                 <button className="nav-link" onClick={() => handleNavigation('/home')}>
-                  <animated.span style={linkSpring}>
+                  <animated.span style={{ ...linkSpring, color: '#4c3b29' }}>
                     <FontAwesomeIcon icon={faHome} /> HOME
                   </animated.span>
                 </button>
               </li>
               <li className="nav-item">
                 <button className="nav-link" onClick={() => handleNavigation('/about')}>
-                  <animated.span style={linkSpring}>
+                  <animated.span style={{ ...linkSpring, color: '#4c3b29' }}>
                     <FontAwesomeIcon icon={faInfoCircle} /> ABOUT
                   </animated.span>
                 </button>

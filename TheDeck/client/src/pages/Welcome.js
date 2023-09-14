@@ -13,7 +13,7 @@ function Welcome() {
     <div className='row welcome'>
       <div className='col-md-12 text-center'>
         {/* Remove the carousel-related <div> element */}
-        <img src="/img/Hotel2.jpg" className="d-block mx-auto img-responsive" alt="..." style={{ maxWidth: '300vh', maxHeight: '585px' }} />
+        <img src="/img/Home.jpg" className="d-block mx-auto img-responsive" alt="..." style={{ maxWidth: '400vh', maxHeight: '800px' }} />
       </div>
       {/* Add the "btn-sm" class to make the button smaller */}
       <button className="btn btn-sm" style={{ color: '#806043', backgroundColor: 'white' }}onClick={handleGetStarted}>
