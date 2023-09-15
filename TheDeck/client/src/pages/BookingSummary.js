@@ -30,7 +30,7 @@ function BookingSummary() {
   };
 
   const handleViewClick = () => {
-    navigate("payment");
+    navigate("signin");
   };
 
   // Define the totalAmount calculation based on nightly rate, check-in date, check-out date, and number of guests
@@ -63,7 +63,7 @@ function BookingSummary() {
               <p className="card-text">Check-in Date: {checkInDate}</p>
               <p className="card-text">Check-out Date: {checkOutDate}</p>
               <p className="card-text">Number of Guests: {numGuests}</p>
-              <p className="card-text">Total Amount: R{totalAmount.toFixed(2)}</p>
+              <p className="card-text">Total Amount: R{totalAmount.toFixed()}</p>
               <BookingSummaryComponent />
               <button
                 className="btn btn-primary custom-view-button"

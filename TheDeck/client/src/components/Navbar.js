@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons'; // Import icons
+import { faUser, faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import backgroundImage from '../backgroundImage/backgroundImage.jpg';
 import { useSpring, animated } from 'react-spring';
 
 function Navbar() {
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [isNavbarOpen, setNavbarOpen] = useState(false);
+
+  useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    setUser(currentUser);
+  }, []);
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -23,7 +29,6 @@ function Navbar() {
     setNavbarOpen(false);
   };
 
-  // Create spring animations for various style properties
   const brandSpring = useSpring({
     transform: isNavbarOpen ? 'scale(1.2)' : 'scale(1)',
   });
@@ -76,13 +81,19 @@ function Navbar() {
               <li className="nav-item">
                 <button className="nav-link" onClick={() => handleNavigation('/about')}>
                   <animated.span style={{ ...linkSpring, color: '#4c3b29' }}>
-                    <FontAwesomeIcon icon={faInfoCircle} /> ABOUT
+                  <FontAwesomeIcon icon={faInfoCircle} /> ABOUT
                   </animated.span>
                 </button>
               </li>
             </ul>
           </div>
           <div className="ml-auto">
+            {user ? (
+              <h1 style={{ color: 'white' }}>{user.name}</h1>
+            ) : (
+              <>
+              </>
+            )}
             <button className="profile-icon-button" onClick={handleProfileClick}>
               <animated.div style={iconSpring} className="profile-icon">
                 <FontAwesomeIcon icon={faUser} />
