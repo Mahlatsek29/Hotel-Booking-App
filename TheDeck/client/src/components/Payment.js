@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Payment() {
+function Payment({ checkInDate, checkOutDate, numGuests, totalAmount }) {
   const handlePayment = () => {
     fetch("http://localhost:8080/create-checkout-session", {
       method: "POST",
@@ -8,24 +8,24 @@ function Payment() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        items: [
-          { id: 1, quantity: 3 },
-          { id: 2, quantity: 1 },
-        ],
+        checkInDate,
+        checkOutDate,
+        numGuests,
+        totalAmount,
       }),
     })
-      .then(res => {
+      .then((res) => {
         if (res.ok) return res.json();
-        return res.json().then(json => Promise.reject(json));
+        return res.json().then((json) => Promise.reject(json));
       })
       .then(({ url }) => {
         window.location = url;
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(e.error);
       });
   };
-
+  
   return (
     <div>
       {/* Your payment-related JSX */}

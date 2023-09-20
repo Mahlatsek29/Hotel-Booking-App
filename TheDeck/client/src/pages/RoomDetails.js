@@ -24,8 +24,7 @@ function RoomDetails() {
   };
 
   const handleViewClick = () => {
-    const _id = room.name;
-    console.log('Id is : ',_id)
+    const _id = room.name; // You may want to use a different property of the room as the ID
     localStorage.setItem("_id", _id);
     navigate("../bookingsummary");
   };
@@ -41,7 +40,7 @@ function RoomDetails() {
             <BookingUI />
             <button
               className="btn btn-primary custom-view-button"
-              onClick={() => handleViewClick(room.name)}
+              onClick={handleViewClick}
             >
               Book
             </button>
