@@ -22,7 +22,7 @@ const SignIn = () => {
         if (token) {
           toast.success("Sign in successful");
           // Store the token in sessionStorage or localStorage as needed
-          navigate("/bookingsummary");
+          navigate("/home");
         } else {
           toast.error("Invalid credentials");
         }
