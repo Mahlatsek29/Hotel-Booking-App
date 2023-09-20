@@ -27,8 +27,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/Hotel", {
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 const storeItems = new Map([
-  [1, { priceInCents: 10000, name: "Learn React Today" }],
-  [2, { priceInCents: 20000, name: "Learn CSS Today" }],
+  [1, { priceInCents: 250000, name: "Junior" }],
+  // [2, { priceInCents: 20000, name: "Learn CSS Today" }],
 ])
 
 app.post("/create-checkout-session", async (req, res) => {
