@@ -22,10 +22,14 @@ const roomData = [
   },
 ];
 
-function BookingUI() {
+function BookingUI({data2}) {
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
-  const [numGuests, setNumGuests] = useState(1);
+ 
+const {numGuests, setNumGuests} = data2.data;
+// const {room} = singleRoom;
+console.log("data", data2)
+console.log("room", data2.room);
 
   const handleCheckInChange = (date) => {
     setCheckInDate(date);
@@ -62,11 +66,13 @@ function BookingUI() {
         (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
       );
 
-      // Calculate the nightly rate based on the selected room ID (replace with your desired room ID)
-      const roomIdToCalculate = 2; // Replace with the desired room ID
-      const nightlyRate = calculateNightlyRate(roomIdToCalculate);
+     //const roomid = roomData.find((item)=> item.id === room.id)
 
-      return nightlyRate * numDays * numGuests;
+      // Calculate the nightly rate based on the selected room ID (replace with your desired room ID)
+     // const roomIdToCalculate = 2; // Replace with the desired room ID
+    // const nightlyRate = calculateNightlyRate();
+
+      return data2.room.nightlyRate * numDays ;
     }
     return 0;
   };

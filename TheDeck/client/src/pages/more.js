@@ -1,8 +1,8 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import BookingUI from "../components/BookingUI";
-import roomData from "../components/rommData"; // Make sure to correct the typo here
-import BookingSummaryComponent from "../components/BookingSummaryComponent"; // Renamed import
+import roomData from "../components/rommData"; 
+import BookingSummaryComponent from "../components/BookingSummaryComponent"; 
 
 function More() {
   const { roomId } = useParams();
@@ -22,12 +22,11 @@ function More() {
           <p className="card-text">Nightly Rate: R{room.nightlyRate}</p>
           <Link to={`/bookingsummary${roomId}`}>Book</Link>
 
-          {/* Include the BookingUI component here */}
           <BookingUI />
         </div>
       </div>
 
-      {/* Use the renamed BookingSummaryComponent */}
+
       <BookingSummaryComponent />
     </div>
   );

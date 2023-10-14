@@ -1,5 +1,5 @@
 // App.js
-import React from "react";
+import React,{useState} from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -18,6 +18,11 @@ import Cancel from "./pages/Cancel";
 import LostPage from "./pages/LostPage";
 
 function App() {
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
+  const [numGuests, setNumGuests] = useState(1);
+
+
   return (
     <Router>
       <div className="App">
@@ -28,8 +33,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/roomdetails" element={<RoomDetails />} />
-          <Route path="/bookingsummary" element={<BookingSummary />} />
+          <Route path="/roomdetails" element={<RoomDetails data={{checkInDate,setCheckInDate , checkOutDate, setCheckOutDate, numGuests, setNumGuests}} />} />
+          <Route path="/bookingsummary" element={<BookingSummary data={{checkInDate , checkOutDate, numGuests}}/>} />
           <Route path="/payment" element={<Payment/>} />
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />

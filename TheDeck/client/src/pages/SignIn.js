@@ -21,14 +21,13 @@ const SignIn = () => {
         const token = response.data.token;
         if (token) {
           toast.success("Sign in successful");
-          // Store the token in sessionStorage or localStorage as needed
           navigate("/home");
         } else {
           toast.error("Invalid credentials");
         }
       } catch (error) {
         console.log(error);
-        toast.error("An error occurred while signing in"); // Display a generic error message
+        toast.error("An error occurred while signing in");
       }
     }
   };
@@ -186,7 +185,7 @@ const SignIn = () => {
         }}
       >
         Don't Have an Account?
-       <Link to="#">Sign-Up</Link>
+        <Link to="/signup">Sign-Up</Link>
       </div>
     </div>
   );

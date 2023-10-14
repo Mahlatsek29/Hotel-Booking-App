@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import the carousel styles
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
@@ -21,8 +21,10 @@ const Home = () => {
     }
   };
 
-  const handleViewClick = (roomName) => {
+  const handleViewClick = (roomName, roomId) => {
     localStorage.setItem("name", roomName);
+    localStorage.setItem("_id", roomId);
+    
     navigate("/roomdetails");
   };
 
@@ -30,7 +32,6 @@ const Home = () => {
     <div className="container">
       <div className="carousel-container">
         {" "}
-        {/* Add this container */}
         <Carousel
           showArrows={true}
           infiniteLoop={true}
@@ -57,7 +58,7 @@ const Home = () => {
 
                   <button
                     className="btn btn-primary custom-view-button"
-                    onClick={() => handleViewClick(room.name)}
+                    onClick={() => handleViewClick(room.name, room._id)}
                   >
                     View
                   </button>

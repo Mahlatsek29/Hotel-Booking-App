@@ -3,7 +3,7 @@ import axios from "axios";
 import BookingUI from "../components/BookingUI";
 import { useNavigate } from "react-router-dom";
 
-function RoomDetails() {
+function RoomDetails({data}) {
   const [room, setRoom] = useState({});
   const roomName = localStorage.getItem("name");
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function RoomDetails() {
           <div className="card-body">
             <h5 className="card-title">{room.name}</h5>
             <p className="card-text">{room.description}</p>
-            <BookingUI />
+            <BookingUI data2={{data , room}}  />
             <button
               className="btn btn-primary custom-view-button"
               onClick={handleViewClick}

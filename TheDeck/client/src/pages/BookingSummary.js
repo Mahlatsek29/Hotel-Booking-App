@@ -3,12 +3,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Payment from "./Payment";
 
-function BookingSummary() {
+function BookingSummary({data}) {
   const _id = localStorage.getItem("_id");
   const checkInDate = localStorage.getItem("checkInDate");
   const checkOutDate = localStorage.getItem("checkOutDate");
   const [room, setRoom] = useState({});
-  const [numGuests, setNumGuests] = useState(1);
+  const { numGuests} = data;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function BookingSummary() {
 
       const nightlyRate = room.nightlyRate;
 
-      return nightlyRate * numDays * numGuests;
+      return nightlyRate * numDays ;
     }
     return 0;
   };

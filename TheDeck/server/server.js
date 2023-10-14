@@ -24,20 +24,22 @@ mongoose.connect("mongodb://127.0.0.1:27017/Hotel", {
   console.error("Error connecting to MongoDB:", err);
 });
 
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 const storeItems = new Map([
   [1, { priceInCents: 250000, name: "Junior" }],
   // [2, { priceInCents: 20000, name: "Learn CSS Today" }],
-])
+]);
 
 app.post("/create-checkout-session", async (req, res) => {
+  const { checkInDate, checkOutDate, numGuests, totalAmount, items } = req.body;
+
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      line_items: req.body.items.map(item => {
-        const storeItem = storeItems.get(item.id)
+      line_items: items.map((item) => {
+        const storeItem = storeItems.get(item.id);
         return {
           price_data: {
             currency: "zar",
@@ -47,16 +49,17 @@ app.post("/create-checkout-session", async (req, res) => {
             unit_amount: storeItem.priceInCents,
           },
           quantity: item.quantity,
-        }
+        };
       }),
-      success_url: `${process.env.CLIENT_URL}/success`,
+      success_url: `${process.env.CLIENT_URL}/success?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&numGuests=${numGuests}&totalAmount=${totalAmount}`,
       cancel_url: `${process.env.CLIENT_URL}/cancel`,
-    })
-    res.json({ url: session.url })
+    });
+    res.json({ url: session.url });
   } catch (e) {
-    res.status(500).json({ error: e.message })
+    res.status(500).json({ error: e.message });
   }
-})
+});
+
 
 app.post("/signup", async (req, res) => {
   try {
