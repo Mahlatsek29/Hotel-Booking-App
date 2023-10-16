@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faInfoCircle, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import backgroundImage from '../backgroundImage/backgroundImage.jpg';
 import { useSpring, animated } from 'react-spring';
 
@@ -15,6 +15,11 @@ function Navbar() {
     setUser(currentUser);
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem('currentUser');
+    navigate('/welcome');
+  };
+
   const handleNavigation = (path) => {
     navigate(path);
     setNavbarOpen(false);
@@ -22,11 +27,6 @@ function Navbar() {
 
   const handleButtonClick = () => {
     setNavbarOpen(!isNavbarOpen);
-  };
-
-  const handleProfileClick = () => {
-    navigate('/signin');
-    setNavbarOpen(false);
   };
 
   const brandSpring = useSpring({
@@ -38,7 +38,7 @@ function Navbar() {
   });
 
   const iconSpring = useSpring({
-    transform: isNavbarOpen ? 'rotate(360deg)' : 'rotate(0deg)',
+    transform: isNavbarOpen ? 'rotate(90deg)' : 'rotate(0deg)',
   });
 
   return (
@@ -58,8 +58,8 @@ function Navbar() {
           <button
             className="navbar-toggler"
             type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
@@ -70,7 +70,7 @@ function Navbar() {
             </animated.span>
           </button>
           <div className={`collapse navbar-collapse ${isNavbarOpen ? 'show' : ''}`} id="navbarNav">
-            <ul className="navbar-nav mx-auto"> {/* Use mx-auto class to center */}
+            <ul className="navbar-nav mx-auto">
               <li className="nav-item">
                 <button className="nav-link" onClick={() => handleNavigation('/home')}>
                   <animated.span style={{ ...linkSpring, color: '#4c3b29' }}>
@@ -81,7 +81,7 @@ function Navbar() {
               <li className="nav-item">
                 <button className="nav-link" onClick={() => handleNavigation('/about')}>
                   <animated.span style={{ ...linkSpring, color: '#4c3b29' }}>
-                  <FontAwesomeIcon icon={faInfoCircle} /> ABOUT
+                    <FontAwesomeIcon icon={faInfoCircle} /> ABOUT US
                   </animated.span>
                 </button>
               </li>
@@ -89,16 +89,37 @@ function Navbar() {
           </div>
           <div className="ml-auto">
             {user ? (
-              <h1 style={{ color: 'white' }}>{user.name}</h1>
+              <div className="dropdown">
+                <button
+                  className="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {user.name}
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="/login" onClick={logout}>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
             ) : (
-              <>
-              </>
+              <div className="d-flex">
+                <div className="nav-item">
+                  <button className="nav-link" onClick={() => handleNavigation('/signup')}>
+                    <FontAwesomeIcon icon={faUserPlus} /> Sign Up
+                  </button>
+                </div>
+                <div className="nav-item">
+                  <button className="nav-link" onClick={() => handleNavigation('/signin')}>
+                    <FontAwesomeIcon icon={faSignInAlt} /> Sign In
+                  </button>
+                </div>
+              </div>
             )}
-            <button className="profile-icon-button" onClick={handleProfileClick}>
-              <animated.div style={iconSpring} className="profile-icon">
-                <FontAwesomeIcon icon={faUser} />
-              </animated.div>
-            </button>
           </div>
         </div>
       </nav>

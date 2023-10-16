@@ -31,7 +31,7 @@ const SignUp = () => {
         setloading(false)
         setsuccess(true)
 
-        // toast.success("User registered successfully");
+  
         navigate("/signin");
       } catch (error) {
         if (error.response && error.response.data && error.response.data.error) {

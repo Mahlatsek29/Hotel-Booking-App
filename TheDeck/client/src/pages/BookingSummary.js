@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Payment from "./Payment";
+import StripeCheckout from 'react-stripe-checkout';
 
-function BookingSummary({data}) {
+function BookingSummary({ data }) {
   const _id = localStorage.getItem("_id");
   const checkInDate = localStorage.getItem("checkInDate");
   const checkOutDate = localStorage.getItem("checkOutDate");
   const [room, setRoom] = useState({});
-  const { numGuests} = data;
+  const { numGuests } = data;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,19 +26,40 @@ function BookingSummary({data}) {
   };
 
   const calculateTotalAmount = () => {
-    if (checkInDate && checkOutDate) {
+    if (checkInDate && checkOutDate && room.nightlyRate) {
       const numDays = Math.ceil(
         (new Date(checkOutDate) - new Date(checkInDate)) / (1000 * 60 * 60 * 24)
       );
 
       const nightlyRate = room.nightlyRate;
 
-      return nightlyRate * numDays ;
+      return nightlyRate * numDays;
     }
     return 0;
   };
 
   const totalAmount = calculateTotalAmount();
+
+  const onToken = async (token) => {
+    try {
+      const bookingData = {
+        checkInDate,
+        checkOutDate,
+        numGuests,
+        totalAmount,
+        token: token.id,
+      };
+
+      const response = await axios.post("http://localhost:8080/api/bookings", bookingData);
+
+      console.log("Booking successful:", response.data);
+
+      // Navigate to the user profile after successful booking
+      navigate("/userprofile");
+    } catch (error) {
+      console.error("Error processing payment:", error);
+    }
+  };
 
   return (
     <div className="container mt-4">
@@ -54,17 +75,19 @@ function BookingSummary({data}) {
               <p className="card-text">Check-out Date: {checkOutDate}</p>
               <p className="card-text">Number of Guests: {numGuests}</p>
               <p className="card-text">Total Amount: R{totalAmount.toFixed()}</p>
+
+              <StripeCheckout
+                amount={totalAmount * 100}
+                token={onToken}
+                currency="ZAR"
+                stripeKey="pk_test_51NibPKEz5vk5ChZPe34ZI61ZUoZzDDVc8fGdqNHX8TfuBNVeLe6DI7EJGdrXY2XY0sFdVkHuDhIfDCdDHWMKOQUX00irW7V53a"
+              >
+                <button className="btn btn-primary custom-view-button">Pay</button>
+              </StripeCheckout>
             </div>
           </div>
         )}
       </div>
-      {/* Render the Payment component here, outside the card */}
-      <Payment
-        checkInDate={checkInDate}
-        checkOutDate={checkOutDate}
-        numGuests={numGuests}
-        totalAmount={totalAmount}
-      />
     </div>
   );
 }

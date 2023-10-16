@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Error from "../components/Error";
+import Loader from "../components/Loader";
+import Success from "./Success";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setloading] = useState(false);
+  const [error, seterror] = useState();
+  const [success, setsuccess] = useState();
 
   const navigate = useNavigate();
 
@@ -13,21 +19,23 @@ const SignIn = () => {
     e.preventDefault();
     if (validate()) {
       try {
+        setloading(!true);
         const response = await axios.post("http://localhost:8080/signin", {
           email,
           password,
         });
+        setloading(false);
+        setsuccess(true);
 
-        const token = response.data.token;
-        if (token) {
-          toast.success("Sign in successful");
-          navigate("/home");
-        } else {
-          toast.error("Invalid credentials");
-        }
+        navigate("/home");
       } catch (error) {
-        console.log(error);
-        toast.error("An error occurred while signing in");
+        if (error.response && error.response.data && error.response.data.error) {
+          alert(error.response.data.error);
+          setloading(false);
+          seterror(true);
+        } else {
+          alert("An error occurred while signing in");
+        }
       }
     }
   };
@@ -57,6 +65,9 @@ const SignIn = () => {
         boxShadow: "13px 13px 20px #cbced1, -13px -13px 20px #fff",
       }}
     >
+      {loading && <Loader />}
+      {error && <Error />}
+      {success && <Success />}
       <div
         style={{
           width: "80px",
@@ -86,7 +97,7 @@ const SignIn = () => {
           color: "#555",
         }}
       >
-        Sign-In
+        Sign In
       </div>
       <form className="p-3 mt-3" onSubmit={proceedSignIn}>
         <div
@@ -100,7 +111,7 @@ const SignIn = () => {
           }}
         >
           <span
-            className="far fa-user"
+            className="far fa-envelope"
             style={{
               color: "#555",
             }}
@@ -184,8 +195,6 @@ const SignIn = () => {
           color: "#806043",
         }}
       >
-        Don't Have an Account?
-        <Link to="/signup">Sign-Up</Link>
       </div>
     </div>
   );

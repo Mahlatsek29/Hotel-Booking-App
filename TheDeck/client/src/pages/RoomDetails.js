@@ -24,7 +24,7 @@ function RoomDetails({data}) {
   };
 
   const handleViewClick = () => {
-    const _id = room.name; // You may want to use a different property of the room as the ID
+    const _id = room.name;
     localStorage.setItem("_id", _id);
     navigate("../bookingsummary");
   };
