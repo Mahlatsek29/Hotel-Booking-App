@@ -12,7 +12,6 @@ import UserProfile from "./pages/UserProfile";
 import RoomDetails from "./pages/RoomDetails";
 import BookingSummary from "./pages/BookingSummary";
 import Admin from "./pages/Admin";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
 import LostPage from "./pages/LostPage";
@@ -25,29 +24,19 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <Navbar />
         <Routes>
-          {/*
-
-          */}
-          <Route
-            path="/(|home|about|signin|signup|userprofile|roomdetails|bookingsummary|success|cancel|error)"
-            element={<Navbar />}
-          />
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/userprofile" element={<UserProfile />} />
-          <Route
-            path="/roomdetails"
-            element={<RoomDetails data={{ checkInDate, setCheckInDate, checkOutDate, setCheckOutDate, numGuests, setNumGuests }} />}
-          />
+          <Route path="/roomdetails" element={<RoomDetails data={{ checkInDate, setCheckInDate, checkOutDate, setCheckOutDate, numGuests, setNumGuests }} />} />
           <Route path="/bookingsummary" element={<BookingSummary data={{ checkInDate, checkOutDate, numGuests }} />} />
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
           <Route path="/error" element={<LostPage />} />
-        
           <Route path="/admin" element={<Admin />} />
         </Routes>
         <Footer />
